@@ -1,2 +1,2 @@
-# ansible-role-psconfig-publisher
-A perfSONAR Ansible role for installing and configuring publishers
+# ansible-role-perfsonar-psconfig-publisher
+Install and configure perfSONAR's psconfig-publisher package

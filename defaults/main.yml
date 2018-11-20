@@ -1,0 +1,4 @@
+---
+# defaults file for perfsonar-psconfig
+
+perfsonar_psconfig_publish: []
