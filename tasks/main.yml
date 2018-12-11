@@ -1,8 +1,25 @@
 ---
 # tasks file for perfsonar-psconfig-publisher
 
+- name: Copy over psconfig files
+  copy:
+    src: "{{ item }}"
+    dest: "{{ perfsonar_psconfig_publish_dir }}"
+  with_items: "{{ perfsonar_psconfig_publish_files | default([]) }}"
+  tags: [ 'ps::config' ]
+
 # Configure the measurements from remote templates
 - name: Add or replace psconfig remotes
-  command: psconfig publish "{{ item }}"
-  with_items: "{{ perfsonar_psconfig_publish | default([]) }}"
+  command: psconfig publish "{{ perfsonar_psconfig_publish_dir }}/{{ item }}"
+  with_items: "{{ perfsonar_psconfig_publish_files | default([]) }}"
   tags: [ 'ps::config' ]
+  register: "res"
+
+- name: add remotes
+  command: psconfig remote add "{{ item[0].stdout | regex_search( '\"(.*?)\"' ) }}"
+  delegate_to: "{{ item[1] }}"
+  with_nested:
+    - "{{ res.results }}"
+    - "{{ perfsonar_psconfig_publish_hosts | default([]) }}"
+  tags: [ 'ps::config' ]
+

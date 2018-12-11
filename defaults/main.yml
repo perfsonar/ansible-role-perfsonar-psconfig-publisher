@@ -1,4 +1,9 @@
 ---
-# defaults file for perfsonar-psconfig
+# defaults file for perfsonar-psconfig-publisher
 
-perfsonar_psconfig_publish: []
+perfsonar_psconfig_publish_dir: /tmp
+perfsonar_psconfig_publish_files: []
+perfsonar_psconfig_publish_hosts: []
+#  - groups['ps-toolkits']
+#  - groups['ps-testpoints']
+#  - groups['ps-maddash']
