@@ -3,7 +3,8 @@
 
 perfsonar_psconfig_publish_dir: /tmp
 perfsonar_psconfig_publish_files: []
-perfsonar_psconfig_publish_hosts: []
-#  - groups['ps-toolkits']
-#  - groups['ps-testpoints']
-#  - groups['ps-maddash']
+perfsonar_psconfig_publish_remote_agents: []
+
+# perfsonar_psconfig_publish_remote_agents: "{{ groups['ps-maddash'] }}
+#     + {{ groups['ps-toolkits'] }}
+#     + {{ groups['ps-testpoints'] }}"

@@ -1,25 +1,21 @@
 ---
 # tasks file for perfsonar-psconfig-publisher
 
-- name: Copy over psconfig files
+- name: Copy psconfig JSON meshes to publisher hosts
   copy:
     src: "{{ item }}"
     dest: "{{ perfsonar_psconfig_publish_dir }}"
   with_items: "{{ perfsonar_psconfig_publish_files | default([]) }}"
   tags: [ 'ps::config' ]
 
-# Configure the measurements from remote templates
-- name: Add or replace psconfig remotes
+- name: Publish psconfig JSON meshes
   command: psconfig publish "{{ perfsonar_psconfig_publish_dir }}/{{ item }}"
   with_items: "{{ perfsonar_psconfig_publish_files | default([]) }}"
+  register: "psconfig_urls"
   tags: [ 'ps::config' ]
-  register: "res"
 
-- name: add remotes
+- name: Alert psconfig agents on remote hosts
   command: psconfig remote add "{{ item[0].stdout | regex_search( '\"(.*?)\"' ) }}"
   delegate_to: "{{ item[1] }}"
-  with_nested:
-    - "{{ res.results }}"
-    - "{{ perfsonar_psconfig_publish_hosts | default([]) }}"
+  loop: "{{ psconfig_urls.results | product(perfsonar_psconfig_publish_remote_agents) | list }}"
   tags: [ 'ps::config' ]
-
