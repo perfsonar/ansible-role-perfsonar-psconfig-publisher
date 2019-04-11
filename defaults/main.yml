@@ -1,10 +1,11 @@
 ---
 # defaults file for perfsonar-psconfig-publisher
 
-perfsonar_psconfig_publish_dir: /tmp
-perfsonar_psconfig_publish_files: []
-perfsonar_psconfig_publish_remote_agents: []
-
-# perfsonar_psconfig_publish_remote_agents: "{{ groups['ps-maddash'] }}
-#     + {{ groups['ps-toolkits'] }}
-#     + {{ groups['ps-testpoints'] }}"
+perfsonar_psconfig_publish_meshes: []
+# perfsonar_psconfig_publish_meshes:
+#   - mesh: filename
+#     remote_dir: /tmp
+#     remote_configure_archives: True
+#     remote_agents: "{{ groups['ps-maddash'] }}
+#       + {{ groups['ps-toolkits'] }}
+#       + {{ groups['ps-testpoints'] }}"
