@@ -1,100 +1,108 @@
 {
-    "addresses": {
-        "bin-arbl": {
-            "address": "perfsonar-bin-arbl.umnet.umich.edu"
-        },
-        "bin-seb": {
-            "address": "perfsonar-bin-seb.umnet.umich.edu"
-        },
-        "core-cool": {
-            "address": "perfsonar-core-cool.umnet.umich.edu"
-        },
-        "core-fxb": {
-            "address": "perfsonar-core-fxb.umnet.umich.edu"
-        },
-        "core-lsa": {
-            "address": "perfsonar-core-lsa.umnet.umich.edu"
-        },
-        "core-seb": {
-            "address": "perfsonar-core-seb.umnet.umich.edu"
-        },
-        "dc-macc": {
-            "address": "perfsonar-dc-macc.umnet.umich.edu"
-        },
+    "_meta":{
+        "display-name": "Example Measurements"
     },
-
-    "groups": {
-        "latency_group": {
-            "type": "mesh",
-            "addresses": [
-                 {"name": "bin-arbl"},
-                 {"name": "bin-seb"},
-                 {"name": "core-cool"},
-                 {"name": "core-fxb"},
-                 {"name": "core-lsa"},
-                 {"name": "core-seb"},
-                 {"name": "dc-macc"}
-             ]  
-        },
-        "throughput_group": {
-            "type": "mesh",
-            "addresses": [
-                 {"name": "bin-arbl"},
-                 {"name": "bin-seb"},
-                 {"name": "core-cool"},
-                 {"name": "core-fxb"},
-                 {"name": "core-lsa"},
-                 {"name": "core-seb"},
-                 {"name": "dc-macc"}
-             ]  
+    
+    "archives": {
+        "example_esmond_archive": {
+            "archiver": "esmond",
+            "data": {
+                "measurement-agent": "{% scheduled_by_address %}",
+                "url": "https://FILL_IN_ESMOND_HOSTNAME_OR_IP/esmond/perfsonar/archive/"
+            }
         }
     },
-    "tests": {
-        "latency_test": {
-            "type": "latencybg",
-            "spec": {
-                "source": "{% address[0] %}",
-                "dest": "{% address[1] %}",
-                "packet-interval": 0.1,
-                "packet-count": 600
-            }
+    
+    "addresses": {
+        "FILL_IN_ADDRESS_NAME_1": { "address": "FILL_IN_HOSTNAME_OR_IP_1" },
+        "FILL_IN_ADDRESS_NAME_2": { "address": "FILL_IN_HOSTNAME_OR_IP_2" }
+    },
+    
+    "groups": {
+        "example_group_mesh": {
+            "type": "mesh",
+            "addresses": [
+                { "name": "FILL_IN_ADDRESS_NAME_1" },
+                { "name": "FILL_IN_ADDRESS_NAME_2" }
+            ]
         },
-        "throughput_test": {
+        
+        "example_group_disjoint": {
+            "type": "disjoint",
+            "a-addresses": [
+                { "name": "FILL_IN_ADDRESS_NAME_1" }
+            ],
+            "b-addresses": [
+                { "name": "FILL_IN_ADDRESS_NAME_2" }
+            ]
+        }
+    },
+    
+    "tests": {
+        "example_test_throughput": {
             "type": "throughput",
             "spec": {
                 "source": "{% address[0] %}",
                 "dest": "{% address[1] %}",
                 "duration": "PT30S"
             }
-        }
-    },
-    "archives": { 
-       "esmond_archive": {
-            "archiver": "esmond",
-            "data": {
-                "url": "https://perfsonar-ma.miserver.it.umich.edu/esmond/perfsonar/archive",
-                "measurement-agent": "{% scheduled_by_address %}"
+        },
+        "example_test_latencybg": {
+            "type": "latencybg",
+            "spec": {
+                "source": "{% address[0] %}",
+                "dest": "{% address[1] %}",
+                "flip": "{% flip %}"
+            }
+        },
+        "example_test_trace": {
+            "type": "trace",
+            "spec": {
+                "source": "{% address[0] %}",
+                "dest": "{% address[1] %}"
             }
         }
     },
-    "schedules": { 
-       "every_4_hours": {
+    
+    "schedules": {
+        "example_schedule_PT4H": {
             "repeat": "PT4H",
-            "slip": "PT4H",
-            "sliprand": true
+            "sliprand": true,
+            "slip": "PT4H"
+        },
+        "example_schedule_PT10M": {
+            "repeat": "PT10M",
+            "sliprand": true,
+            "slip": "PT10M"
         }
     },
+    
     "tasks": {
-        "latency_task": {
-            "group": "latency_group",
-            "test": "latency_test",
-            "archives": ["esmond_archive"]
+        "example_task_throughput": {
+            "group": "example_group_mesh",
+            "test": "example_test_throughput",
+            "schedule": "example_schedule_PT4H",
+            "archives": [ "example_esmond_archive" ],
+            "_meta": {
+                "display-name": "Example Throughput Tests"
+            }
         },
-        "throughput_task": {
-            "group": "throughput_group",
-            "test": "throughput_test",
-            "archives": ["esmond_archive"],
-            "schedule": "every_4_hours"
+        "example_task_latencybg": {
+            "group": "example_group_mesh",
+            "test": "example_test_latencybg",
+            "archives": [ "example_esmond_archive" ],
+            "_meta": {
+                "display-name": "Example Loss Tests"
+            }
+        },
+        "example_task_trace": {
+            "group": "example_group_mesh",
+            "test": "example_test_trace",
+            "schedule": "example_schedule_PT10M",
+            "archives": [ "example_esmond_archive" ],
+            "_meta": {
+                "display-name": "Example Traceroute Tests"
+            }
         }
     }
 }

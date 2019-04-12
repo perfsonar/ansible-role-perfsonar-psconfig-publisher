@@ -23,7 +23,7 @@
   with_items: "{{ psconfig_mesh.remote_agents | default([])}}"
   when: psconfig_mesh.remote_configure_archives | default('False') != True
 
-- name: Alert psconfig agents on remote hosts and configure archives
+- name: Alert psconfig agents on remote hosts with configure archives
   tags: [ 'ps::config' ]
   command: >
     psconfig remote add --configure-archives
