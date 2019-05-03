@@ -1,3 +1,4 @@
+
 ansible-role-perfSONAR-psconfig-publisher
 =========
 https://github.com/perfsonar/ansible-role-perfsonar-psconfig-publisher
@@ -31,35 +32,8 @@ Dependencies
 Role Variables
 --------------
 
-Group Variables, and their default values:
+The role variables are defined in [defaults/main.yml](https://github.com/perfsonar/ansible-role-perfsonar-psconfig-publisher/blob/master/defaults/main.yml).
 
-
-      # In order to publish a mesh, give it an entry in the
-      # perfsonar_psconfig_publish_meshes list. The subelements
-      # are as follows:
-      #
-      # mesh: required. filename of mesh defined in json file.
-      #
-      # remote_dir: defaults to /tmp. directory on target machine for json file.
-      #
-      # remote_agents: defaults to []. a list of Ansible managed machines.
-      #   Ansible will try to use psconfig on each host to add the published
-      #   mesh's URL. You can add Ansible host groups.
-      #
-      # remote_configure_archives: default to False. Set to True if you want the
-      #   remote_agents to send results to archivers defined in the json mesh file.
-      #
-      # Example:
-      #
-      # perfsonar_psconfig_publish_meshes:
-      #   - mesh: filename.json
-      #     remote_dir: /tmp
-      #     remote_agents: "{{ groups['ps-maddash'] }}
-      #       + {{ groups['ps-toolkits'] }}
-      #       + {{ groups['ps-testpoints'] }}"
-      #     remote_configure_archives: True
-      perfsonar_psconfig_publish_meshes: []
-      
  Role Tags
 --------------
 Some tags are used in the role, they are meant to run only or skip part of the process.  The following tags are existing:
