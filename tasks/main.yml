@@ -4,7 +4,7 @@
 - name: publish remote mesh configurations that have a defined mesh file
   tags: [ 'ps::config' ]
   include_tasks: psconfig_publish_meshes.yml
-  loop: "{{ perfsonar_psconfig_publish_meshes | default([]) }}"
+  with_items: "{{ perfsonar_psconfig_publish_meshes | default([]) }}"
   loop_control:
     loop_var: psconfig_mesh
   when: psconfig_mesh.mesh | default('') != ''
