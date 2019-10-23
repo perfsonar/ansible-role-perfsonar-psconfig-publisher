@@ -13,6 +13,7 @@
   uri:
     url: "{{ psconfig_mesh.remote_url }}"
     return_content: yes
+    status_code: [200,304]
     dest: "{{ psconfig_mesh.remote_dir | default('/tmp') }}/{{ psconfig_mesh.mesh }}"
   when: psconfig_mesh.remote_url | default('') != ''
 
