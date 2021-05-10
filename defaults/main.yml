@@ -30,8 +30,8 @@
 #   - mesh: filename
 #     remote_url: url
 #     remote_dir: /tmp
-#     remote_agents: "{{ groups['ps-maddash'] }}
-#       + {{ groups['ps-toolkits'] }}
-#       + {{ groups['ps-testpoints'] }}"
+#     remote_agents: "{{ groups['ps_maddash'] }}
+#       + {{ groups['ps_toolkit'] }}
+#       + {{ groups['ps_testpoint'] }}"
 #     remote_configure_archives: True
 perfsonar_psconfig_publish_meshes: []
